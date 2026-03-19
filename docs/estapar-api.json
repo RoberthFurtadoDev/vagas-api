@@ -1,0 +1,125 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "vagas-api",
+    "description": "Estapar parking management backend",
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "http://localhost:3003"
+    }
+  ],
+  "paths": {
+    "/webhook": {
+      "post": {
+        "tags": ["Webhook"],
+        "summary": "Handle vehicle event",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "examples": {
+                "ENTRY": {
+                  "value": {
+                    "license_plate": "ZUL0001",
+                    "entry_time": "2025-01-01T12:00:00.000Z",
+                    "event_type": "ENTRY"
+                  }
+                },
+                "PARKED": {
+                  "value": {
+                    "license_plate": "ZUL0001",
+                    "lat": -23.561684,
+                    "lng": -46.655981,
+                    "event_type": "PARKED"
+                  }
+                },
+                "EXIT": {
+                  "value": {
+                    "license_plate": "ZUL0001",
+                    "exit_time": "2025-01-01T13:31:00.000Z",
+                    "event_type": "EXIT"
+                  }
+                }
+              },
+              "schema": {
+                "type": "object",
+                "required": ["license_plate", "event_type"],
+                "properties": {
+                  "license_plate": { "type": "string" },
+                  "entry_time": { "type": "string", "format": "date-time" },
+                  "exit_time": { "type": "string", "format": "date-time" },
+                  "lat": { "type": "number" },
+                  "lng": { "type": "number" },
+                  "event_type": { "type": "string", "enum": ["ENTRY", "PARKED", "EXIT"] }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": { "description": "Event processed" },
+          "400": { "description": "Invalid payload" },
+          "404": { "description": "Session not found" },
+          "409": { "description": "Garage full or duplicate session" }
+        }
+      }
+    },
+    "/revenue": {
+      "get": {
+        "tags": ["Revenue"],
+        "summary": "Get revenue by sector and date",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "example": {
+                "date": "2025-01-01",
+                "sector": "A"
+              },
+              "schema": {
+                "type": "object",
+                "required": ["date", "sector"],
+                "properties": {
+                  "date": { "type": "string", "format": "date" },
+                  "sector": { "type": "string" }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Revenue data",
+            "content": {
+              "application/json": {
+                "example": {
+                  "amount": 150.00,
+                  "currency": "BRL",
+                  "timestamp": "2025-01-01T15:00:00.000Z"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/actuator/health": {
+      "get": {
+        "tags": ["Actuator"],
+        "summary": "Application health check",
+        "responses": {
+          "200": {
+            "description": "Application is healthy",
+            "content": {
+              "application/json": {
+                "example": { "status": "UP" }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
