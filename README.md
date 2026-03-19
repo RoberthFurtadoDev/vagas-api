@@ -139,7 +139,7 @@ Swagger UI: `http://localhost:3003/swagger-ui.html`
 
 ### Rodando no IntelliJ (recomendado para Windows)
 
-1. No painel esquerdo, clique com o botão direito na pasta `src/test`
+1. No painel esquerdo, clique com o botão direito na pasta `src/test/java`
 2. Selecione `Run 'All Tests'`
 
 **Resultado esperado:**
