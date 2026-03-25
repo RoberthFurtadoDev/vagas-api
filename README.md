@@ -2,7 +2,7 @@
 
 Backend para gerenciamento de estacionamento desenvolvido como desafio técnico para a Estapar.
 
-Recebe eventos de veículos via Webhook, aplica regras de preço dinâmico por lotação e expõe endpoint de faturamento por setor.
+Recebe eventos de veículos via Webhook, aplica regras de preço dinâmico por lotação e expõe Endpoint de faturamento por setor.
 
 ---
 
